@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="GetCatsByOwnerGenderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderListTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

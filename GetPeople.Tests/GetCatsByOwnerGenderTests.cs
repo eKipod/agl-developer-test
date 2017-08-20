@@ -61,8 +61,8 @@ namespace GetPeople.Tests
             } };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.ShouldHaveSingleItem();
-            result[0].gender.ShouldBe("Male");
-            result[0].catNames.ShouldHaveSingleItem("Felix");
+            result[0].Name.ShouldBe("Male");
+            result[0].Items.ShouldHaveSingleItem("Felix");
         }
 
         [Test]
@@ -79,9 +79,9 @@ namespace GetPeople.Tests
             } };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.ShouldHaveSingleItem();
-            result[0].gender.ShouldBe("Female");
-            result[0].catNames.ShouldBeInOrder(SortDirection.Ascending, StringComparer.OrdinalIgnoreCase);
-            result[0].catNames.SequenceEqual(new[] { "Felix", "grumpy" }).ShouldBeTrue();
+            result[0].Name.ShouldBe("Female");
+            result[0].Items.ShouldBeInOrder(SortDirection.Ascending, StringComparer.OrdinalIgnoreCase);
+            result[0].Items.SequenceEqual(new[] { "Felix", "grumpy" }).ShouldBeTrue();
         }
 
         [Test]
@@ -98,8 +98,8 @@ namespace GetPeople.Tests
             } };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.ShouldHaveSingleItem();
-            result[0].gender.ShouldBe("Other");
-            result[0].catNames.SequenceEqual(new[] { "Felix" }).ShouldBeTrue();
+            result[0].Name.ShouldBe("Other");
+            result[0].Items.SequenceEqual(new[] { "Felix" }).ShouldBeTrue();
         }
 
         [Test]
@@ -119,9 +119,9 @@ namespace GetPeople.Tests
             };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.ShouldHaveSingleItem();
-            result[0].gender.ShouldBe("Alien");
-            result[0].catNames.ShouldBeInOrder();
-            result[0].catNames.SequenceEqual(new[] { "Felix", "Grumpy" }).ShouldBeTrue();
+            result[0].Name.ShouldBe("Alien");
+            result[0].Items.ShouldBeInOrder();
+            result[0].Items.SequenceEqual(new[] { "Felix", "Grumpy" }).ShouldBeTrue();
         }
 
         [Test]
@@ -150,14 +150,44 @@ namespace GetPeople.Tests
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.Count.ShouldBe(2);
 
-            var result0 = result.FirstOrDefault(r => r.gender == "Alien");
+            var result0 = result.FirstOrDefault(r => r.Name == "Alien");
             result0.ShouldNotBeNull();
-            result0.catNames.ShouldBeInOrder();
-            result0.catNames.SequenceEqual(new[] { "Felix", "Grumpy" }).ShouldBeTrue();
+            result0.Items.ShouldBeInOrder();
+            result0.Items.SequenceEqual(new[] { "Felix", "Grumpy" }).ShouldBeTrue();
 
-            var result1 = result.FirstOrDefault(r => r.gender == "Terrestrial");
-            result1.catNames.ShouldBeInOrder();
-            result1.catNames.SequenceEqual(new[] { "Felix", "Nyan" }).ShouldBeTrue();
+            var result1 = result.FirstOrDefault(r => r.Name == "Terrestrial");
+            result1.Items.ShouldBeInOrder();
+            result1.Items.SequenceEqual(new[] { "Felix", "Nyan" }).ShouldBeTrue();
+        }
+
+        [Test]
+        public void WhenTwoOwnerWithDifferentGenderAndOneHasCatAndTheOtherDoesnt()
+        {
+            var sourceContent = new[] {
+                new
+                {
+                    gender = "Alien",
+                    pets = new[]
+                    {
+                        new { name = "Dingo", type = "Dog" },
+                    }
+                },
+                new
+                {
+                    gender = "Terrestrial",
+                    pets = new[]
+                    {
+                        new { name = "Felix", type = "Cat" },
+                        new { name = "Nyan", type = "Cat" },
+                    }
+                },
+            };
+            var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
+            result.ShouldHaveSingleItem();
+
+            result[0].Name.ShouldBe("Terrestrial");
+            result[0].Items.ShouldBeInOrder();
+            result[0].Items.SequenceEqual(new[] { "Felix", "Nyan" }).ShouldBeTrue();
         }
     }
 }

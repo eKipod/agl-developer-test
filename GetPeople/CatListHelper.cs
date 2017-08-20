@@ -24,23 +24,23 @@ namespace GetPeople
             public IEnumerable<Pet> Pets { get; set; }
         }
 
-        public static IEnumerable<(string gender, IEnumerable<string> catNames)> GetCatsByOwnerGender(string sourceContent)
+        public static IEnumerable<NamedEnumerable<string>> GetCatsByOwnerGender(string sourceContent)
         {
             if (string.IsNullOrWhiteSpace(sourceContent))
-                return Enumerable.Empty<(string gender, IEnumerable<string> catNames)>();
+                return Enumerable.Empty<NamedEnumerable<string>>();
 
             var owners = JsonConvert.DeserializeObject<IEnumerable<Owner>>(sourceContent);
 
             return owners
                 .SelectMany(owner => (owner.Pets ?? Enumerable.Empty<Pet>())
-                    .Where(pet => pet.Type == "Cat") 
+                    .Where(pet => pet.Type == "Cat")
                     .Select(pet => (ownerGender: owner.Gender, catName: pet.Name)))
                 .GroupBy(pair => pair.ownerGender, pair => pair.catName)
-                .Select(group => (
-                    gender: group.Key, 
-                    catNames: group
-                        .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
-                        .AsEnumerable()));
+                .Select(group => new NamedEnumerable<string>
+                {
+                    Name = group.Key,
+                    Items = group.OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                });
         }
     }
 }
