@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GetPeople
 {
@@ -10,6 +8,25 @@ namespace GetPeople
     {
         static void Main(string[] args)
         {
+            var sourceUrl = args.FirstOrDefault() ?? "http://agl-developer-test.azurewebsites.net/people.json";
+            var sourceContent = GetContentFromUrl(sourceUrl);
+            var catList = GetCatsByOwnerGender(sourceContent);
+            RenderCatList(catList, Console.Out);
+        }
+
+        private static string GetContentFromUrl(string sourceUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static IOrderedEnumerable<(string gender, IOrderedEnumerable<string> catNames)> GetCatsByOwnerGender(string sourceContent)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void RenderCatList(IOrderedEnumerable<(string gender, IOrderedEnumerable<string> catNames)> catList, TextWriter @out)
+        {
+            throw new NotImplementedException();
         }
     }
 }
