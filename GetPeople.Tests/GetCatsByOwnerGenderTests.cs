@@ -19,7 +19,7 @@ namespace GetPeople.Tests
         [Test]
         public void WhenEmptyList()
         {
-            var sourceContent = "[]";
+            const string sourceContent = "[]";
             var result = GetCatsByOwnerGender(sourceContent);
             result.ShouldBeEmpty();
         }
@@ -27,7 +27,7 @@ namespace GetPeople.Tests
         [Test]
         public void WhenInvalidJson()
         {
-            var sourceContent = "this is not JSON";
+            const string sourceContent = "this is not JSON";
             Should.Throw<JsonReaderException>(() => GetCatsByOwnerGender(sourceContent));
         }
 
@@ -115,7 +115,7 @@ namespace GetPeople.Tests
                 {
                     gender = "Alien",
                     pets = new[] { new { name = "Felix", type = "Cat" } }
-                },
+                }
             };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.ShouldHaveSingleItem();
@@ -143,9 +143,9 @@ namespace GetPeople.Tests
                     pets = new[]
                     {
                         new { name = "Felix", type = "Cat" },
-                        new { name = "Nyan", type = "Cat" },
+                        new { name = "Nyan", type = "Cat" }
                     }
-                },
+                }
             };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.Count.ShouldBe(2);
@@ -156,6 +156,7 @@ namespace GetPeople.Tests
             result0.Items.SequenceEqual(new[] { "Felix", "Grumpy" }).ShouldBeTrue();
 
             var result1 = result.FirstOrDefault(r => r.Name == "Terrestrial");
+            result1.ShouldNotBeNull();
             result1.Items.ShouldBeInOrder();
             result1.Items.SequenceEqual(new[] { "Felix", "Nyan" }).ShouldBeTrue();
         }
@@ -169,7 +170,7 @@ namespace GetPeople.Tests
                     gender = "Alien",
                     pets = new[]
                     {
-                        new { name = "Dingo", type = "Dog" },
+                        new { name = "Dingo", type = "Dog" }
                     }
                 },
                 new
@@ -178,9 +179,9 @@ namespace GetPeople.Tests
                     pets = new[]
                     {
                         new { name = "Felix", type = "Cat" },
-                        new { name = "Nyan", type = "Cat" },
+                        new { name = "Nyan", type = "Cat" }
                     }
-                },
+                }
             };
             var result = GetCatsByOwnerGender(JsonConvert.SerializeObject(sourceContent)).ToList();
             result.ShouldHaveSingleItem();

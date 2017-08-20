@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 
 namespace GetPeople
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {

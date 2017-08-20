@@ -1,6 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -13,14 +11,19 @@ namespace GetPeople
         [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         private class Pet
         {
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local (used by JsonConvert)
             public string Name { get; set; }
+
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local (used by JsonConvert)
             public string Type { get; set; }
         }
 
         [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         private class Owner
         {
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local (used by JsonConvert)
             public string Gender { get; set; }
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local (used by JsonConvert)
             public IEnumerable<Pet> Pets { get; set; }
         }
 
