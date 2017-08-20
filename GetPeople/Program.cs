@@ -9,14 +9,9 @@ namespace GetPeople
         static void Main(string[] args)
         {
             var sourceUrl = args.FirstOrDefault() ?? "http://agl-developer-test.azurewebsites.net/people.json";
-            var sourceContent = GetContentFromUrl(sourceUrl);
+            var sourceContent = HttpHelper.GetContentFromUrl(sourceUrl);
             var catList = GetCatsByOwnerGender(sourceContent);
             RenderCatList(catList, Console.Out);
-        }
-
-        private static string GetContentFromUrl(string sourceUrl)
-        {
-            throw new NotImplementedException();
         }
 
         private static IOrderedEnumerable<(string gender, IOrderedEnumerable<string> catNames)> GetCatsByOwnerGender(string sourceContent)
